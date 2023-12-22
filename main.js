@@ -1,7 +1,5 @@
 import { Kontakt } from "./modules/Kontakt.js";
 
-Kontakt
-
 const provjImena = /^[A-Z][a-z]{2,}(\s[A-Z][a-z]{2,}){1,}$/;
 const provjTel = /^0(1|2|3|6)[0-9]\/[0-9]{3}-[0-9]{3,4}$/;
 
@@ -19,6 +17,8 @@ function dodajIKreiraj(e) {
   if (imaIstiPodatak(ime, tel)) {
     //alert("Uneseni podaci već postoje!");
     dodajError.textContent = "Neki od unesenih podatak vec vec postoje";
+    dodajAcept.textContent = "";
+
     return; // Prekini izvršavanje funkcije ako postoje isti podaci
   } else {
     if (provjImena.test(ime)) {
@@ -86,21 +86,47 @@ function imaIstiPodatak(ime, telefon) {
   return false; // Nisu pronađeni isti podaci
 }
 
+document.querySelector("#desni").addEventListener("click", function (event) {
+  if (event.target.classList.contains("brisi")) {
+    const red = event.target.parentNode.parentNode; // Get the parent <tr> element
+    const index = red.rowIndex - 1; // Adjust for the table header
+
+    // Remove the row from the table
+    red.remove();
+
+    // Update localStorage by removing the deleted contact using splice
+    const kontakti = JSON.parse(localStorage.getItem("kontakti"));
+    kontakti.splice(index, 1); // Remove 1 element at the specified index
+    localStorage.setItem("kontakti", JSON.stringify(kontakti));
+  }
+});
 
 
 
 document.querySelector("#desni").addEventListener("click", function (event) {
-  if (event.target.classList.contains("brisi")) {
-      const red = event.target.parentNode.parentNode; // Get the parent <tr> element
-      const index = red.rowIndex - 1; // Adjust for the table header
+  const target = event.target;
 
-      // Remove the row from the table
-      red.remove();
+  if (target.classList.contains("brisi")) {
+    // ... (existing code for deleting a contact)
+  } else if (target.classList.contains("izmeni")) {
+    // If the "IZMENI" button is clicked
+    const red = target.parentNode.parentNode; // Get the parent <tr> element
+    const index = red.rowIndex - 1; // Adjust for the table header
 
-      // Update localStorage by removing the deleted contact using splice
-      const kontakti = JSON.parse(localStorage.getItem("kontakti"));
-      kontakti.splice(index, 1); // Remove 1 element at the specified index
-      localStorage.setItem("kontakti", JSON.stringify(kontakti));
+    // Get the contact data from localStorage
+    const kontakti = JSON.parse(localStorage.getItem("kontakti"));
+    const kontakt = kontakti[index];
+
+    // Populate the form with the contact data
+    document.querySelector("#imePrezime").value = kontakt.ime;
+    document.querySelector("#telefon").value = kontakt.broj;
+
+    // Remove the contact from localStorage
+    kontakti.splice(index, 1);
+    localStorage.setItem("kontakti", JSON.stringify(kontakti));
+
+    // Update the UI by removing the row from the table
+    red.remove();
   }
 });
 
