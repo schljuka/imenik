@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div class="container">
+
+        <div id="lijevi">
+            <form>
+                <div class="input">
+                    Ime i prezime<input type="text" name="imePrezime" id="imePrezime" placeholder="Ime i prezime">
+                    <span id="imeError" style="color: red;"></span>
+                </div>
+                <div class="input">
+                    Telefon<input type="text" name="telefon" id="telefon" placeholder="Telefon">
+                    <span id="telError" style="color: red;"></span>
+                </div>
+                <div class="input">
+                    <button type="submit" value="submit" id="dodaj">Dodaj</button>
+                    <span id="dodajError" style="color: red;"></span>
+                    <span id="dodajAcept" style="color: rgb(86, 6, 247);"></span>
+                </div>
+            </form>
+        </div>
+
+
+        <div id="desni">
+            <table>
+                <tr>
+                    <th>Ime i prezime</th>
+                    <th>Telefon</th>
+                    <th>Brisi</th>
+                    <th>Izmeni</th>
+                </tr>
+            </table>
+
+
+        </div>
+
+    </div>
+
+    <script type="module" src="main.js"></script>
+
+
+
+
+
+</body>
+
+</html>
