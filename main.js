@@ -68,16 +68,24 @@ function sacuvajUKontakte(kontakt) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const postojećiKontakti = JSON.parse(localStorage.getItem("kontakti"));
+  let postojećiKontakti = JSON.parse(localStorage.getItem("kontakti"));
+
+  // Provera da li postoje podaci u localStorage
+  if (!postojećiKontakti) {
+    // Ako ne postoje, postavljamo prazan niz
+    postojećiKontakti = [];
+    localStorage.setItem("kontakti", JSON.stringify(postojećiKontakti));
+  }
+
   postojećiKontakti.forEach((kontakt) => {
     dodajUTabelu(kontakt);
   });
 });
 
 function imaIstiPodatak(ime, telefon) {
-  const postojećiKontakti = JSON.parse(localStorage.getItem("kontakti"));
+  const postojeciKontakti = JSON.parse(localStorage.getItem("kontakti"));
 
-  for (const kontakt of postojećiKontakti) {
+  for (const kontakt of postojeciKontakti) {
     if (kontakt.ime == ime || kontakt.broj == telefon) {
       return true; // Pronađeni su isti podaci
     }
@@ -88,6 +96,7 @@ function imaIstiPodatak(ime, telefon) {
 
 document.querySelector("#desni").addEventListener("click", function (event) {
   const target = event.target;
+  
 
   if (target.classList.contains("brisi")) {
     const red = event.target.parentNode.parentNode; // Get the parent <tr> element
@@ -139,6 +148,7 @@ document.querySelector("#desni").addEventListener("click", function (event) {
       dodajButton.textContent = "DODAJ";
       dodajButton.removeEventListener("click", dodajIKreiraj);
       dodajButton.addEventListener("click", dodajIKreiraj);
+
       location.reload();
     });
   }
