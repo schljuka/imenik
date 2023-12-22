@@ -1,4 +1,4 @@
-import { Kontakt } from "./Kontakt.js";
+import { Kontakt } from ".modules/Kontakt.js";
 
 const provjImena = /^[A-Z][a-z]{2,}(\s[A-Z][a-z]{2,}){1,}$/;
 const provjTel = /^0(1|2|3|6)[0-9]\/[0-9]{3}-[0-9]{3,4}$/;
