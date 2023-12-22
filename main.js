@@ -16,7 +16,7 @@ function dodajIKreiraj(e) {
 
   if (imaIstiPodatak(ime, tel)) {
     //alert("Uneseni podaci već postoje!");
-    dodajError.textContent = "Neki od unesenih podatak vec vec postoje";
+    dodajError.textContent = "Neki od unesenih podatak vec postoje";
     dodajAcept.textContent = "";
 
     return; // Prekini izvršavanje funkcije ako postoje isti podaci
@@ -87,27 +87,15 @@ function imaIstiPodatak(ime, telefon) {
 }
 
 document.querySelector("#desni").addEventListener("click", function (event) {
-  if (event.target.classList.contains("brisi")) {
-    const red = event.target.parentNode.parentNode; // Get the parent <tr> element
-    const index = red.rowIndex - 1; // Adjust for the table header
-
-    // Remove the row from the table
-    red.remove();
-
-    // Update localStorage by removing the deleted contact using splice
-    const kontakti = JSON.parse(localStorage.getItem("kontakti"));
-    kontakti.splice(index, 1); // Remove 1 element at the specified index
-    localStorage.setItem("kontakti", JSON.stringify(kontakti));
-  }
-});
-
-
-
-document.querySelector("#desni").addEventListener("click", function (event) {
   const target = event.target;
 
   if (target.classList.contains("brisi")) {
-    // ... (existing code for deleting a contact)
+    const red = event.target.parentNode.parentNode; // Get the parent <tr> element
+    const index = red.rowIndex - 1; // Adjust for the table header
+    red.remove();
+    const kontakti = JSON.parse(localStorage.getItem("kontakti"));
+    kontakti.splice(index, 1); // Remove 1 element at the specified index
+    localStorage.setItem("kontakti", JSON.stringify(kontakti));
   } else if (target.classList.contains("izmeni")) {
     // If the "IZMENI" button is clicked
     const red = target.parentNode.parentNode; // Get the parent <tr> element
@@ -121,13 +109,39 @@ document.querySelector("#desni").addEventListener("click", function (event) {
     document.querySelector("#imePrezime").value = kontakt.ime;
     document.querySelector("#telefon").value = kontakt.broj;
 
-    // Remove the contact from localStorage
-    kontakti.splice(index, 1);
-    localStorage.setItem("kontakti", JSON.stringify(kontakti));
+    // Change the text and event listener of the "DODAJ" button to "IZMENI"
+    const dodajButton = document.querySelector("#dodaj");
+    dodajButton.textContent = "IZMENI";
 
-    // Update the UI by removing the row from the table
-    red.remove();
+    // Remove the existing click listener
+    dodajButton.removeEventListener("click", dodajIKreiraj);
+
+    // Add a new click listener for the "IZMENI" button
+    dodajButton.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Get the updated values from the form
+      const novoIme = document.querySelector("#imePrezime").value;
+      const noviTel = document.querySelector("#telefon").value;
+
+      // Update the contact object
+      kontakt.ime = novoIme;
+      kontakt.broj = noviTel;
+
+      // Save the updated contact back to localStorage
+      localStorage.setItem("kontakti", JSON.stringify(kontakti));
+
+      // Clear the form
+      document.querySelector("#imePrezime").value = "";
+      document.querySelector("#telefon").value = "";
+
+      // Change the text and event listener of the "DODAJ" button back to its original state
+      dodajButton.textContent = "DODAJ";
+      dodajButton.removeEventListener("click", dodajIKreiraj);
+      dodajButton.addEventListener("click", dodajIKreiraj);
+      location.reload();
+    });
   }
+
+  // Inside the dodajIKreiraj function after successfully adding a contact and updating localStorage
 });
-
-
