@@ -85,3 +85,23 @@ function imaIstiPodatak(ime, telefon) {
 
   return false; // Nisu pronađeni isti podaci
 }
+
+
+
+
+document.querySelector("#desni").addEventListener("click", function (event) {
+  if (event.target.classList.contains("brisi")) {
+      const red = event.target.parentNode.parentNode; // Get the parent <tr> element
+      const index = red.rowIndex - 1; // Adjust for the table header
+
+      // Remove the row from the table
+      red.remove();
+
+      // Update localStorage by removing the deleted contact using splice
+      const kontakti = JSON.parse(localStorage.getItem("kontakti"));
+      kontakti.splice(index, 1); // Remove 1 element at the specified index
+      localStorage.setItem("kontakti", JSON.stringify(kontakti));
+  }
+});
+
+
