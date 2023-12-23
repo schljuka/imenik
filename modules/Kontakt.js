@@ -1,6 +1,6 @@
-export class Kontakt{
-    constructor(imePrezime,broj){
-        this.ime=imePrezime;
-        this.broj=broj;
-    }
+export class Kontakt {
+  constructor(imePrezime, broj) {
+    this.imePrezime = imePrezime;
+    this.broj = broj;
+  }
 }
